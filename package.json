@@ -1,0 +1,28 @@
+{
+  "name": "reachdown",
+  "version": "0.0.0",
+  "description": "Get the inner db of an (abstract-)level(up|down) onion",
+  "license": "MIT",
+  "author": "Vincent Weevers",
+  "scripts": {
+    "test": "standard && node test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "level-mem": "^5.0.0",
+    "standard": "^14.1.0",
+    "subleveldown": "^4.1.1",
+    "tape": "^4.11.0"
+  },
+  "keywords": [
+    "abstract-leveldown",
+    "level",
+    "levelup"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": "vweevers/reachdown",
+  "bugs": "https://github.com/vweevers/reachdown/issues",
+  "homepage": "https://github.com/vweevers/reachdown"
+}
