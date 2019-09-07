@@ -1,6 +1,6 @@
 {
   "name": "reachdown",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Get the inner db of an (abstract-)level(up|down) onion",
   "license": "MIT",
   "author": "Vincent Weevers",
