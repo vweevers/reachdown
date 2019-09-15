@@ -6,7 +6,7 @@
 [![npm status](http://img.shields.io/npm/v/reachdown.svg)](https://www.npmjs.org/package/reachdown)
 [![node](https://img.shields.io/node/v/reachdown.svg)](https://www.npmjs.org/package/reachdown)
 [![Travis build status](https://img.shields.io/travis/vweevers/reachdown.svg?label=travis)](http://travis-ci.org/vweevers/reachdown)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Greenkeeper badge](https://badges.greenkeeper.io/vweevers/reachdown.svg)](https://greenkeeper.io/)
 
 ## Example
 
