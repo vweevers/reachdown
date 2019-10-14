@@ -2,17 +2,14 @@
 
 module.exports = function reachdown (db, visit, strict) {
   if (visit && typeof visit !== 'function') visit = typeVisitor(visit)
-  return walk(db, visit, strict !== false, false)
+  return walk(db, visit, strict !== false)
 }
 
-function walk (db, visit, strict, nested) {
-  // TBD
-  // if (nested && typeof db.down === 'function') return db.down(visit, strict)
-
+function walk (db, visit, strict) {
   if (visit && visit(db, type(db))) return db
-  if (isAbstract(db.db)) return walk(db.db, visit, strict, true)
-  if (isAbstract(db._db)) return walk(db._db, visit, strict, true)
-  if (isLevelup(db.db)) return walk(db.db, visit, strict, true)
+  if (isAbstract(db.db)) return walk(db.db, visit, strict)
+  if (isAbstract(db._db)) return walk(db._db, visit, strict)
+  if (isLevelup(db.db)) return walk(db.db, visit, strict)
   if (visit && strict) return null
 
   return db
