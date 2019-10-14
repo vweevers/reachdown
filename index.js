@@ -34,11 +34,10 @@ function typeVisitor (wanted) {
 function type (db) {
   if (db.type) return db.type
 
-  // Fragile, but unavoidable at this time
-  // TODO: add .type to abstract-leveldown implementations and levelup
-  if (isLevelup(db)) return 'levelup'
-  if (isEncdown(db)) return 'encoding-down'
-  if (isDeferred(db)) return 'deferred-leveldown'
+  // Feature-detect older versions (that don't have a type property)
+  if (isLevelup(db)) return 'levelup' // For levelup < 4.3.0
+  if (isEncdown(db)) return 'encoding-down' // For < 6.3.0
+  if (isDeferred(db)) return 'deferred-leveldown' // For < 5.2.1
 }
 
 function isLevelup (db) {
