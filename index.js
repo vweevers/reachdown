@@ -1,16 +1,15 @@
 'use strict'
 
 module.exports = function reachdown (db, visit, strict) {
-  if (visit && typeof visit !== 'function') visit = typeVisitor(visit)
-  return walk(db, visit, strict !== false)
+  return walk(db, visitor(visit), !!visit && strict !== false)
 }
 
 function walk (db, visit, strict) {
-  if (visit && visit(db, type(db))) return db
+  if (visit(db, type(db))) return db
   if (isAbstract(db.db)) return walk(db.db, visit, strict)
   if (isAbstract(db._db)) return walk(db._db, visit, strict)
   if (isLevelup(db.db)) return walk(db.db, visit, strict)
-  if (visit && strict) return null
+  if (strict) return null
 
   return db
 }
@@ -20,10 +19,18 @@ function isAbstract (db) {
   return isObject(db) && typeof db._batch === 'function' && typeof db._iterator === 'function'
 }
 
+function visitor (v) {
+  return typeof v === 'function' ? v : v ? typeVisitor(v) : none
+}
+
 function typeVisitor (wanted) {
   return function (db, type) {
     return type ? type === wanted : false
   }
+}
+
+function none () {
+  return false
 }
 
 function type (db) {

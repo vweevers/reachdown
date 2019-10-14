@@ -18,6 +18,8 @@ test('basic', function (t) {
   t.is(reachdown(db), memdown)
   t.is(reachdown(enc), memdown)
   t.is(reachdown(memdown), memdown)
+  t.is(reachdown(db, 'foo'), null)
+  t.is(reachdown(db, 'foo', false), memdown)
 
   db.open(function () {
     t.is(db.isOpen(), true)
@@ -29,9 +31,61 @@ test('basic', function (t) {
     t.is(reachdown(db), memdown)
     t.is(reachdown(enc), memdown)
     t.is(reachdown(memdown), memdown)
+    t.is(reachdown(db, 'foo'), null)
+    t.is(reachdown(db, 'foo', false), memdown)
 
     t.end()
   })
+})
+
+test('visitor function', function (t) {
+  const db = level()
+  const visits = []
+  const result = reachdown(db, function visit (db, type) {
+    visits.push({ db, type })
+  })
+
+  t.same(visits, [
+    { db: db, type: 'levelup' },
+    { db: db.db, type: 'deferred-leveldown' },
+    { db: db._db, type: 'encoding-down' },
+    { db: db._db.db, type: undefined }
+  ])
+  t.is(result, null)
+  t.end()
+})
+
+test('visitor function, loose', function (t) {
+  const db = level()
+  const visits = []
+  const result = reachdown(db, function visit (db, type) {
+    visits.push({ db, type })
+  }, false)
+
+  t.same(visits, [
+    { db: db, type: 'levelup' },
+    { db: db.db, type: 'deferred-leveldown' },
+    { db: db._db, type: 'encoding-down' },
+    { db: db._db.db, type: undefined }
+  ])
+  t.is(result, db._db.db, 'landed on memdown')
+  t.end()
+})
+
+test('visitor function, return truthy value', function (t) {
+  const db = level()
+  const visits = []
+  const result = reachdown(db, function visit (db, type) {
+    visits.push({ db, type })
+    if (type === 'deferred-leveldown') return 123
+  }, false)
+
+  t.same(visits, [
+    { db: db, type: 'levelup' },
+    { db: db.db, type: 'deferred-leveldown' }
+  ])
+  t.is(result, db.db)
+  t.end()
 })
 
 test('subleveldown', function (t) {
@@ -45,6 +99,8 @@ test('subleveldown', function (t) {
   t.is(reachdown(sub1, 'levelup'), sub1)
   t.is(reachdown(sub1, 'encoding-down'), sub1._db)
   t.is(reachdown(sub1), memdown)
+  t.is(reachdown(sub1, 'foo'), null)
+  t.is(reachdown(sub1, 'foo', false), memdown)
 
   sub1.open(function () {
     t.is(reachdown(sub1, 'subleveldown').type, 'subleveldown')
@@ -53,6 +109,8 @@ test('subleveldown', function (t) {
     t.is(reachdown(sub1, 'levelup'), sub1)
     t.is(reachdown(sub1, 'encoding-down'), sub1._db)
     t.is(reachdown(sub1), memdown)
+    t.is(reachdown(sub1, 'foo'), null)
+    t.is(reachdown(sub1, 'foo', false), memdown)
     t.end()
   })
 })
