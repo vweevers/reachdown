@@ -5,13 +5,15 @@
   "license": "MIT",
   "author": "Vincent Weevers",
   "scripts": {
-    "test": "standard && node test.js"
+    "test": "standard && hallmark && node test.js",
+    "hallmark": "hallmark --fix"
   },
   "files": [
     "index.js"
   ],
   "dependencies": {},
   "devDependencies": {
+    "hallmark": "^2.0.0",
     "level-mem": "^5.0.0",
     "standard": "^14.1.0",
     "subleveldown": "^4.1.1",
