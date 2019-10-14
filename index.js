@@ -19,10 +19,8 @@ function walk (db, visit, strict, nested) {
 }
 
 function isAbstract (db) {
-  if (!db || typeof db !== 'object') return false
-
   // Loose by design, for when node_modules contains multiple versions of abstract-leveldown.
-  return typeof db._batch === 'function' && typeof db._iterator === 'function'
+  return isObject(db) && typeof db._batch === 'function' && typeof db._iterator === 'function'
 }
 
 function typeVisitor (wanted) {
