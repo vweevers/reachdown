@@ -11,6 +11,17 @@ test('basic', function (t) {
   const enc = db._db
   const memdown = enc.db
 
+  t.is(reachdown.is(db, 'levelup'), true)
+  t.is(reachdown.is(deferred, 'deferred-leveldown'), true)
+  t.is(reachdown.is(enc, 'encoding-down'), true)
+  t.is(reachdown.is(db, 'foo'), false)
+  t.is(reachdown.is(deferred, 'foo'), false)
+  t.is(reachdown.is(enc, 'foo'), false)
+  t.is(reachdown.is(memdown, 'foo'), false)
+
+  // Not sure what this should do; leave it undocumented for now.
+  t.is(reachdown.is(db), false)
+
   t.is(reachdown(db, 'levelup'), db)
   t.is(reachdown(db, 'deferred-leveldown'), deferred)
   t.is(reachdown(db, 'encoding-down'), enc)
@@ -93,6 +104,14 @@ test('subleveldown', function (t) {
   const enc = db._db
   const memdown = enc.db
   const sub1 = sub(db, 'test')
+  const subdown = sub1._db.db
+
+  t.is(reachdown.is(sub1, 'levelup'), true)
+  t.is(reachdown.is(subdown, 'subleveldown'), true)
+  t.is(reachdown.is(enc, 'encoding-down'), true)
+  t.is(reachdown.is(sub1, 'foo'), false)
+  t.is(reachdown.is(subdown, 'foo'), false)
+  t.is(reachdown.is(enc, 'foo'), false)
 
   t.is(reachdown(sub1, 'subleveldown').type, 'subleveldown')
   t.is(reachdown(sub1, 'deferred-leveldown'), sub1.db)

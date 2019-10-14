@@ -49,11 +49,29 @@ The `db` argument is required and must be a recent-ish `levelup`, `abstract-leve
 
 If `visit` is non-falsy and no matching `db` is found, `reachdown` returns `null` unless `strict` is `false` in which case it returns the innermost `db`.
 
+### `bool = reachdown.is(db, visit)`
+
+Utility to determine the type of `db` without reaching down. The `visit` argument is the same as above, i.e. a string or a function. Example:
+
+```js
+if (reachdown.is(db, 'levelup')) {
+  // ..
+}
+```
+
+Which is the same as the following, except that `reachdown.is(..)` also works on older versions that don't have a `type` property:
+
+```js
+if (db.type === 'levelup') {
+  // ..
+}
+```
+
 ## Supported Types
 
-- `levelup` (>= 0.0.2)
+- `levelup` (>= 0.0.2 only if db is open, otherwise >= 2.0.0)
 - `encoding-down` (>= 1)
-- `deferred-leveldown` (>= 0.3.0)
+- `deferred-leveldown` (>= 0.3.0 only if db is open, otherwise >= 2.0.0)
 - `subleveldown` (>= 4)
 - `multileveldown` (TBD)
 - Yours?

@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function reachdown (db, visit, strict) {
+function reachdown (db, visit, strict) {
   return walk(db, visitor(visit), !!visit && strict !== false)
 }
 
@@ -57,3 +57,10 @@ function isDeferred (db) {
 function isObject (o) {
   return typeof o === 'object' && o !== null
 }
+
+function is (db, visit) {
+  return !!visitor(visit)(db, type(db))
+}
+
+reachdown.is = is
+module.exports = reachdown
